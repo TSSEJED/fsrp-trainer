@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const quickAccessButtons = document.querySelectorAll('.quick-access-btn');
     const fullTrainingBtn = document.getElementById('full-training-btn');
     const warningPolicyBtn = document.getElementById('warning-policy-btn');
+    const trainerInfoBtn = document.getElementById('trainer-info-btn');
+    const trainerInfoQuickBtn = document.getElementById('trainer-info-quick-btn');
     const joinGameBtn = document.getElementById('join-game-btn');
+    const openInBrowserLink = document.getElementById('open-in-browser');
     
     // Theme Management
     function initTheme() {
@@ -65,6 +68,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // PDF Viewing Functions
     function openPdfViewer(pdfUrl, title) {
+        // Special case for the trainer info document
+        if (pdfUrl === 'trainer-info') {
+            // Set the title in the viewer
+            currentDocumentTitle.textContent = title;
+            
+            // Show the PDF viewer
+            pdfEmbed.classList.remove('hidden');
+            
+            // Create Google Drive embedded URL
+            const googleDriveEmbedUrl = 'https://drive.google.com/file/d/11yT0dMFEWJo073JkWg7XsVFCq7FKw0iq/preview';
+            
+            // Set iframe source to the Google Drive embed
+            pdfIframe.src = googleDriveEmbedUrl;
+            
+            // Update the 'Open in Browser' link
+            if (openInBrowserLink) {
+                openInBrowserLink.href = 'https://drive.google.com/file/d/11yT0dMFEWJo073JkWg7XsVFCq7FKw0iq/view';
+            }
+            
+            console.log('Opening Google Drive document:', googleDriveEmbedUrl);
+            return;
+        }
+        
+        // For other PDF links
         // Get the absolute path to the PDF
         const absolutePdfUrl = getAbsolutePdfPath(pdfUrl);
         
@@ -83,6 +110,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Set iframe source to the PDF
         pdfIframe.src = pdfUrl; // Use relative path for iframe to avoid cross-origin issues
+        
+        // Update the 'Open in Browser' link
+        if (openInBrowserLink) {
+            openInBrowserLink.href = absolutePdfUrl;
+        }
         
         console.log('Opening PDF:', absolutePdfUrl);
     }
@@ -121,6 +153,28 @@ document.addEventListener('DOMContentLoaded', function() {
             openPdfViewer(pdfUrl, title);
         }
     });
+    
+    // Trainer Info button functionality
+    if (trainerInfoBtn) {
+        trainerInfoBtn.addEventListener('click', () => {
+            const pdfUrl = trainerInfoBtn.getAttribute('data-pdf');
+            const title = trainerInfoBtn.getAttribute('data-title');
+            if (pdfUrl && title) {
+                openPdfViewer(pdfUrl, title);
+            }
+        });
+    }
+    
+    // Trainer Info quick access button
+    if (trainerInfoQuickBtn) {
+        trainerInfoQuickBtn.addEventListener('click', () => {
+            const pdfUrl = trainerInfoQuickBtn.getAttribute('data-pdf');
+            const title = trainerInfoQuickBtn.getAttribute('data-title');
+            if (pdfUrl && title) {
+                openPdfViewer(pdfUrl, title);
+            }
+        });
+    }
     
     // Add keyboard navigation
     document.addEventListener('keydown', (e) => {

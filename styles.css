@@ -267,6 +267,25 @@ h2 i {
     margin-top: 15px;
 }
 
+.document-author {
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.document-author small {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.document-card:hover .document-author small {
+    opacity: 1;
+}
+
 .view-btn, .download-btn {
     padding: 8px 15px;
     border-radius: 5px;
