@@ -49,38 +49,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // PDF Viewing Functions
     function openPdfViewer(pdfUrl, title) {
+        // For mobile devices, open PDF directly in a new tab
+        if (isMobileDevice()) {
+            window.open(pdfUrl, '_blank');
+            return;
+        }
+        
+        // For desktop devices, continue with the embedded viewer
         // Set the title in the viewer
         currentDocumentTitle.textContent = title;
         
         // Show the PDF viewer
         pdfEmbed.classList.remove('hidden');
         
-        // Get the open in browser link
-        const openInBrowserLink = document.getElementById('open-in-browser');
-        const mobilePdfMessage = document.getElementById('mobile-pdf-message');
-        
-        // Set the direct link for the "Open in Browser" button
-        openInBrowserLink.href = pdfUrl;
-        
-        // Handle mobile devices differently
-        if (isMobileDevice()) {
-            // Show mobile controls
-            document.querySelector('.mobile-pdf-controls').style.display = 'block';
-            
-            // For mobile devices, use direct PDF embedding
-            // This works better than Google Docs Viewer in most cases
-            pdfIframe.src = pdfUrl;
-            
-            // Show mobile message immediately
-            mobilePdfMessage.classList.remove('hidden');
-            setTimeout(() => {
-                mobilePdfMessage.classList.add('hidden');
-            }, 5000); // Hide after 5 seconds
-        } else {
-            // For desktop, use direct PDF embedding and hide mobile controls
-            document.querySelector('.mobile-pdf-controls').style.display = 'none';
-            pdfIframe.src = pdfUrl;
-        }
+        // Set iframe source to the PDF
+        pdfIframe.src = pdfUrl;
         
         console.log('Opening PDF:', pdfUrl);
     }

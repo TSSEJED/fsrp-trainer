@@ -335,6 +335,8 @@ h2 i {
 
 .mobile-pdf-controls {
     display: none;
+    margin-top: 10px;
+    width: 100%;
 }
 
 .mobile-pdf-btn {
