@@ -47,11 +47,30 @@ document.addEventListener('DOMContentLoaded', function() {
                (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     }
     
+    // Helper function to resolve relative PDF paths to absolute URLs
+    function getAbsolutePdfPath(relativePath) {
+        // Get the base URL of the current page (without the filename)
+        const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+        
+        // If the path starts with '../', go up one directory
+        if (relativePath.startsWith('../')) {
+            // Remove the '../' and go up one directory in the baseUrl
+            const parentBaseUrl = baseUrl.substring(0, baseUrl.slice(0, -1).lastIndexOf('/') + 1);
+            return parentBaseUrl + relativePath.substring(3);
+        }
+        
+        // Otherwise, just join the base URL and the relative path
+        return baseUrl + relativePath;
+    }
+    
     // PDF Viewing Functions
     function openPdfViewer(pdfUrl, title) {
+        // Get the absolute path to the PDF
+        const absolutePdfUrl = getAbsolutePdfPath(pdfUrl);
+        
         // For mobile devices, open PDF directly in a new tab
         if (isMobileDevice()) {
-            window.open(pdfUrl, '_blank');
+            window.open(absolutePdfUrl, '_blank');
             return;
         }
         
@@ -63,9 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
         pdfEmbed.classList.remove('hidden');
         
         // Set iframe source to the PDF
-        pdfIframe.src = pdfUrl;
+        pdfIframe.src = pdfUrl; // Use relative path for iframe to avoid cross-origin issues
         
-        console.log('Opening PDF:', pdfUrl);
+        console.log('Opening PDF:', absolutePdfUrl);
     }
 
     // Add click listeners to view buttons
