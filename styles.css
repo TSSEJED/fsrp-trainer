@@ -292,13 +292,29 @@ h2 i {
 }
 
 .download-btn {
-    background-color: transparent;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+    transition: all 0.3s;
 }
 
 .download-btn:hover {
-    background-color: rgba(244, 67, 54, 0.1);
+    background-color: #3d8b40;
+    transform: translateY(-2px);
+}
+
+.mobile-only {
+    display: none;
 }
 
 /* PDF Embed Styles */
@@ -1131,6 +1147,10 @@ footer a:hover::after {
     .logo {
         width: 40px;
         height: 40px;
+    }
+    
+    .mobile-only {
+        display: flex;
     }
     
     .header-actions {
