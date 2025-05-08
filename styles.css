@@ -1153,6 +1153,10 @@ footer a:hover::after {
         display: flex;
     }
     
+    .view-btn {
+        display: none;
+    }
+    
     .header-actions {
         gap: 10px;
     }
