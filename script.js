@@ -67,17 +67,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show mobile controls
             document.querySelector('.mobile-pdf-controls').style.display = 'block';
             
-            // Try to use Google PDF Viewer first
-            const googlePdfViewer = 'https://docs.google.com/viewer?url=' + encodeURIComponent(window.location.origin + window.location.pathname.split('/').slice(0, -1).join('/') + '/' + pdfUrl) + '&embedded=true';
-            pdfIframe.src = googlePdfViewer;
+            // For mobile devices, use direct PDF embedding
+            // This works better than Google Docs Viewer in most cases
+            pdfIframe.src = pdfUrl;
             
-            // Show mobile message after a short delay
+            // Show mobile message immediately
+            mobilePdfMessage.classList.remove('hidden');
             setTimeout(() => {
-                mobilePdfMessage.classList.remove('hidden');
-                setTimeout(() => {
-                    mobilePdfMessage.classList.add('hidden');
-                }, 5000); // Hide after 5 seconds
-            }, 1000);
+                mobilePdfMessage.classList.add('hidden');
+            }, 5000); // Hide after 5 seconds
         } else {
             // For desktop, use direct PDF embedding and hide mobile controls
             document.querySelector('.mobile-pdf-controls').style.display = 'none';
